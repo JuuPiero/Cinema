@@ -78,21 +78,26 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($listData as $key => $value)
-                                                    <tr role="row"
-                                                        class="{{($key % 2 == 0)? 'odd' : 'even'}} text-center">
-                                                        <td class="sorting_1">{{$loop->index + 1}}</td>
-                                                        <td class="">{{$value->name}}</td>
-                                                        <td class="">{{$value->amount}} <br> <pre>( Tickets + Food )</pre></td>
-                                                        <td class="">$ {{number_format($value->price)}}</td>
-                                                        <td class="">Banking</td>
-                                                        <td class="">{{$BookingDate[$key]}}</td>
+                                                    @foreach($bookTickets as $index => $bookTicket)
+                                                    <tr role="row" class="text-center">
+                                                        <td class="sorting_1">{{ $index + 1 }}</td>
+                                                        <td class="">{{ $bookTicket->name }}</td>
                                                         <td class="">
-                                                            <label
-                                                                class="{{($value->status == 1)? 'badge badge-danger' : 'badge badge-success'}}">{{($value->status == 1)? 'Pending' : 'Complete'}}</label>
+                                                            {{ $bookTicket->amount }}
+                                                            <br> <pre>( Tickets + Food )</pre>
                                                         </td>
-                                                        <td><a href="{{route('billDetail', $value->id)}}" class="btn btn-gradient-dark btn-sm w-75"> <i
-                                                                    class="far fa-eye"></i></a>
+                                                        <td class="">$ {{ number_format($bookTicket->price) }}</td>
+                                                        <td class="">Banking</td>
+                                                        <td class="">{{ $bookingDates[$index] }}</td>
+                                                        <td class="">
+                                                            <label class="badge {{ $bookTicket->status == 1 ? 'badge-danger' : 'badge-success' }}">
+                                                                {{($bookTicket->status == 1)? 'Pending' : 'Complete'}}
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ route('billDetail', $bookTicket->id)}}" class="btn btn-gradient-dark btn-sm w-75"> 
+                                                                <i class="far fa-eye"></i>
+                                                            </a>
                                                         </td>
                                                         </tr>
                                                         @endforeach

@@ -35,7 +35,7 @@
                                 </div>
                             </form>
                         </div>
-                        {{-- <div class="checkout-widget checkout-contact">
+                        <div class="checkout-widget checkout-contact">
                             <h5 class="title">Promo Code </h5>
                             <form class="checkout-contact-form">
                                 <div class="form-group">
@@ -51,20 +51,20 @@
                             <ul class="payment-option">
                                 <li class="active">
                                     <a href="#0">
-                                        <img src="assets/images/payment/card.png" alt="payment">
-                                        <span>Credit Card</span>
+                                        <img src="{{ asset('images/cash-payment.jpg') }}" alt="payment">
+                                        <span>cash payment</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#0">
-                                        <img src="assets/images/payment/card.png" alt="payment">
-                                        <span>Debit Card</span>
+                                        <img src="{{ asset('images/momo.jpg') }}" alt="payment">
+                                        <span>Momo</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#0">
-                                        <img src="assets/images/payment/paypal.png" alt="payment">
-                                        <span>paypal</span>
+                                        <img src="{{ asset('images/vnpay.png') }}" alt="payment">
+                                        <span>VNpay</span>
                                     </a>
                                 </li>
                             </ul>
@@ -103,7 +103,7 @@
                             <p class="notice">
                                 By Clicking "Make Payment" you agree to the <a href="#0">terms and conditions</a>
                             </p>
-                        </div> --}}
+                        </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="booking-summery bg-one">

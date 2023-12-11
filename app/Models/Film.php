@@ -127,7 +127,6 @@ class Film extends Model
                 ]);
             }
         }
-        
     }
 
     public function edit($request, $id){
@@ -136,8 +135,10 @@ class Film extends Model
             $file = $request->image;
             $fileName = time().'_'.$file->getClientOriginalName();
             $file->move('Uploads', $fileName);
-            $image_path = 'Uploads/'.$finByid->image;
-            unlink($image_path);
+            $image_path = public_path('Uploads/'.$finbyId->image);
+            if(file_exists($image_path)) {
+                unlink($image_path);
+            }
         }else{
             $fileName = $finbyId->image;
         }
@@ -146,8 +147,10 @@ class Film extends Model
             $files = $request->trailer;
             $Trailer = time().'_'.$files->getClientOriginalName();
             $files->move('Uploads', $Trailer);
-            $trailer_path = 'Uploads/'.$finByid->trailer;
-            unlink($trailer_path);
+            $trailer_path = public_path('Uploads/'.$finbyId->trailer);
+            if(file_exists($trailer_path)) {
+                unlink($trailer_path);
+            }
         }else{
             $Trailer = $finbyId->trailer;
         }

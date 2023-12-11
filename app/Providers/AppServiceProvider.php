@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
@@ -32,8 +33,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $logo = Logo::where('status', 1)->first();
-        View::share('logo', $logo);
+        if (Schema::hasTable('logos')) {
+            $logo = Logo::where('status', 1)->first();
+            View::share('logo', $logo);
+            // echo 'Bảng đã tồn tại.';
+        } else {
+            dd("chưa tạo bảng logos");
+        }
         Paginator::defaultView('pagination::default');
         View::composer('*', function ($view) {
 

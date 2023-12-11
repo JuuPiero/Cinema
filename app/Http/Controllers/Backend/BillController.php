@@ -16,50 +16,68 @@ use App\Models\TimeDetail;
 use App\Models\Cinema;
 use App\Models\ContactInfo;
 use App\Models\BookTicketDetail;
-use Carbon\Carbon;
-use Str;
 
 class BillController extends Controller
 {
     public function index(){
-        $BookingDate = [];
-        $listData = BookTicket::join('users', 'users.id', '=', 'book_tickets.user_id')
+        $bookingDates = [];
+        $bookTickets = BookTicket::join('users', 'users.id', '=', 'book_tickets.user_id')
                                 ->select('book_tickets.*', 'users.name')
                                 ->get();
-        foreach($listData as $value){
+        foreach($bookTickets as $value){
             $dts = $value->created_at->addHours(7)->toDayDateTimeString();
-            array_push($BookingDate, $dts);
+            array_push($bookingDates, $dts);
         }        
-        return view('back-end.manage.bill.index', compact('listData', 'BookingDate'));
+        return view('back-end.manage.bill.index')->with([
+            'bookTickets' => $bookTickets,
+            'bookingDates' => $bookingDates
+        ]);
     }
 
-    public function bill_Detail($id){
-        $Flag = 0;
-        $type = [];
-        $book = BookTicket::find($id);
-        $listData = BookTicketDetail::where('book_ticket_id', $id)->get();
+    public function bill_Detail($id) {
         $contact = ContactInfo::first();
-        $user = User::all();
-        $food = Food::all();
-        $film = Film::all();
-        $time = Time::all();
-        $room = MovieRoom::all();
-        $chair = MovieChair::all();
-        $cinema = Cinema::all();
+        $bookTicket = BookTicket::find($id); // $bookTicket-status : 1 => pending ; 2 => complete
+        $bookTicketDetails = BookTicketDetail::where('book_ticket_id', $id)->get();
+        
+        $user = User::where('id', $bookTicket->user_id)->first();
+        $flag = 0;
+        $type = [];
+        // dd($bookTicketDetails);
+        $chairs = MovieChair::all();
+       
+        $foods = Food::all();
+        // $film = Film::all();
+        // $time = Time::all();
+        // $room = MovieRoom::all();
+        // $cinema = Cinema::all();
         $timeDetail = TimeDetail::all();
-        $seats = json_decode($listData[0]['chair'], true);
-        foreach($seats as $value){
-            $Str = substr($value, 0, 1);
-            if($Str >= 'a' && $Str <= 'd'){
-                $dts = 'regular seat';
-            }else if($Str >= 'e' && $Str <= 'h'){
-                $dts = 'vip seat';
-            }else{
-                $dts = 'couple seat';
-            }
-            array_push($type, $dts);
-        }
-        return view('back-end.manage.bill.detail', compact('chair' ,'listData', 'food', 'Flag', 'timeDetail', 'film', 'time', 'room', 'cinema', 'seats', 'type', 'book', 'user', 'contact'));
+        // $seats = json_decode($listData[0]['chair'], true); // ghế
+        // $seatBooked = [];
+        // foreach($seats as $value){
+        //     $Str = substr($value, 0, 1);
+        //     if($Str >= 'a' && $Str <= 'd'){
+        //         $dts = 'regular seat';
+        //     }else if($Str >= 'e' && $Str <= 'h'){
+        //         $dts = 'vip seat';
+        //     }else{
+        //         $dts = 'couple seat';
+        //     }
+        //     array_push($type, $dts);
+        //     array_push($seatBooked, $dts);
+        // }
+        // dd($seatArray);
+        return view('back-end.manage.bill.detail')->with([
+            'contact' => $contact,
+            'bookTicket' => $bookTicket,
+            // 'user' => $user,
+            'userEmail' => $user->email,
+            'userName' => $user->name,
+            'bookTicketDetails' => $bookTicketDetails,
+            'chairs' => $chairs,
+            'timeDetail' => $timeDetail,
+            'flag' => $flag,
+            'foods' => $foods
+        ]);
     }
 
     public function post_Edit(Request $request, $id){
