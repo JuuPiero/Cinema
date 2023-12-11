@@ -21,6 +21,7 @@ use App\Http\Controllers\Backend\PdfController;
 use App\Http\Controllers\Backend\FoodController;
 use App\Http\Controllers\Backend\RecycleBinController;
 use App\Http\Controllers\Backend\ReviewController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
 
 /*
@@ -63,8 +64,9 @@ Route::post('/update-food/{id}', [HomeController::class, 'update_food'])->name('
 Route::get('/remove-film/{id}', [HomeController::class, 'remove_film'])->name('remove-film');
 Route::get('/remove-food/{id}', [HomeController::class, 'remove_food'])->name('remove-food');
 
-Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
-Route::get('/post-checkout', [HomeController::class, 'post_checkout'])->name('post-checkout');
+Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+Route::post('/post-checkout', [CheckoutController::class, 'post_checkout'])->name('post-checkout');
+
 Route::post('/customer/contact-info', [HomeController::class, 'contact_info'])->name('customer.contact-info');
 
 Route::get('/login', [HomeController::class, 'login'])->name('login');

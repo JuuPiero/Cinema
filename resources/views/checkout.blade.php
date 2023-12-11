@@ -49,10 +49,10 @@
                         <div class="checkout-widget checkout-card mb-0">
                             <h5 class="title">Payment Option </h5>
                             <ul class="payment-option">
-                                <li class="active">
+                                {{-- <li class="active">
                                     <a href="#0">
                                         <img src="{{ asset('images/cash-payment.jpg') }}" alt="payment">
-                                        <span>cash payment</span>
+                                        <span>Cash payment</span>
                                     </a>
                                 </li>
                                 <li>
@@ -64,9 +64,9 @@
                                 <li>
                                     <a href="#0">
                                         <img src="{{ asset('images/vnpay.png') }}" alt="payment">
-                                        <span>VNpay</span>
+                                        <span>VNPAY</span>
                                     </a>
-                                </li>
+                                </li> --}}
                             </ul>
                             <h6 class="subtitle">Enter Your Card Details </h6>
                             <form class="payment-card-form">
@@ -166,4 +166,9 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+<script>const assetUrl = "{{ asset('images') }}" </script>
+<script src="{{ asset('js/payment.js') }}"></script>    
 @endsection

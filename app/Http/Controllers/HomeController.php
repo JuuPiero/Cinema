@@ -21,14 +21,14 @@ use App\Models\Reviews;
 use App\Models\BookTicket;
 use App\Models\BookTicketDetail;
 use App\Models\ContactInfo;
-use Auth;
-use Mail;
-use Hash;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
 use App\Http\Requests\MovieRequest;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -86,7 +86,8 @@ class HomeController extends Controller
                 $film = Film::where('status', 1)->orWhere('status', 2)->orderByDesc('id')->paginate($limit);
             }
         }
-        if (($req->has('film') || $req->has('cinema') || $req->has('date')) && ($req->film=='' || $req->cinema=='' || $req->date=='')) {
+        if (($req->has('film') || $req->has('cinema') || $req->has('date')) 
+            && ($req->film=='' || $req->cinema=='' || $req->date=='')) {
             $film = Film::where('status', 0)->get();
         }
         return view('movie', compact('film', 'category', 'banner', 'cinema', 'check_category', 'check_limit'));
@@ -156,7 +157,7 @@ class HomeController extends Controller
         $req->validate(['mess'=>'required']);
         Comment::create([
             'blog_id'=>$id,
-            'user_id'=>Auth::user()->id,
+            'user_id'=> Auth::user()->id,
             'content'=>$req->mess
         ]);
         return redirect()->back();
@@ -164,8 +165,7 @@ class HomeController extends Controller
     // end blog 
 
     // contact 
-    public function contact()
-    {
+    public function contact() {
         $contact = ContactInfo::all();
         return view('contact', compact('contact'));
     }
@@ -189,13 +189,11 @@ class HomeController extends Controller
     }
 
     // login 
-    public function login()
-    {
+    public function login() {
         return view('login');
     }
 
-    public function post_login(Request $req)
-    {
+    public function post_login(Request $req) {
         if (Auth::attempt($req->only('email', 'password'))) {
             if ($req->has('checkout')) {
                 return redirect()->route('checkout', $req->book);
@@ -215,14 +213,12 @@ class HomeController extends Controller
         }
     }
 
-    public function register()
-    {
+    public function register() {
         return view('register');
     }
 
-    public function post_register(RegisterRequest $request, User $SignUp)
-    {
-        $SignUp->add($request);
+    public function post_register(RegisterRequest $request, User $signUp) {
+        $signUp->add($request);
         return redirect()->route('login');
     }
 
@@ -250,8 +246,7 @@ class HomeController extends Controller
         $user = User::where('id', $req->id)->first();
         $req->validate(['password'=>'required|confirmed']);
         if ($user && $user->remember_token==$req->token) {
-           User::find($req->id)->update([
-                'password'=>Hash::make($req->password)
+           User::find($req->id)->update(['password'=> Hash::make($req->password)
            ]);
            return redirect()->route('login')->with('success', 'Change Password success!');
         }else{
@@ -418,44 +413,7 @@ class HomeController extends Controller
     // end book
 
     // check out 
-    public function checkout(CartAjax $cart){
-        return view('checkout', compact('cart'));
-    }
-
-    public function post_checkout(CartAjax $cart){
-        if(empty($cart->content()) && empty($cart->content_food())){
-            return redirect()->back()->with('error', 'You must buy at least 1 item!');
-        }
-        $id = BookTicket::create([
-            'user_id'=>Auth::user()->id,
-            'amount'=>$cart->get_total_amount(),
-            'price'=>$cart->get_total_price()
-        ])->id;
-        foreach($cart->content() as $key => $item){
-            BookTicketDetail::create([
-                'book_ticket_id'=>$id,
-                'time_id'=>$key,
-                'chair'=>json_encode($item['seat']),
-                'quantity'=>$item['qty'],
-                'price'=>$item['price']
-            ]);
-        }
-        foreach($cart->content_food() as $key => $item){
-            BookTicketDetail::create([
-                'book_ticket_id'=>$id,
-                'food_id'=>$key,
-                'quantity'=>$item['qty'],
-                'price'=>$item['price']
-            ]);
-        }
-        $user = Auth::user();
-        Mail::send('mail.checkout', compact('cart'), function($email) use($user){
-            $email->subject('Boleto-cart');
-            $email->to($user->email);
-        });
-        $cart->clear();
-        return redirect()->route('index')->with('success', 'Thank you for buying!');
-    }
+    
 
     public function contact_info(ContactRequest $req){
         ContactInfo::create([
