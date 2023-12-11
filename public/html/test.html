@@ -1,0 +1,63 @@
+<canvas></canvas>
+
+
+<script>
+    const canvas = document.querySelector('canvas')
+
+    canvas.width = 800
+    canvas.height = 640
+    const context = canvas.getContext('2d')
+    const hex = [0, 1, 2, 3, 4, 5 ,6 ,7 ,8 ,9, 'a', 'b', 'c', 'd', 'e']
+
+    class Ball {
+        constructor(x, y, radius = 30) {
+            this.position = {x: x, y: y}
+            this.velocity = {x: 0, y: 0}
+            this.radius = radius
+
+            this.gravity = 1
+            this.friction = 0.6
+        }
+
+
+        update() {
+            this.draw()
+
+            this.position.y += this.velocity.y
+
+            if(this.position.y + this.radius + this.velocity.y < canvas.height) this.velocity.y += this.gravity 
+            else this.velocity.y = -this.velocity.y * this.friction
+        }
+        draw() {
+
+            context.beginPath()
+            context.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2, false)
+            context.fillStyle = 'red'
+            context.fill()
+            context.stroke()
+            context.closePath()
+        }
+
+    }
+
+    const ball = new Ball(100, 100)
+    const balls = []
+
+    for(let i = 0; i < 100; i++) {
+
+        balls.push(new Ball(Math.random() * canvas.width, Math.random() * canvas.height))
+
+    }
+
+    function animate() {
+        window.requestAnimationFrame(animate)
+        context.clearRect(0, 0, canvas.width, canvas.height)
+        ball.update()
+        balls.forEach(ball => {
+            ball.update()
+        })
+
+    }
+    animate()
+
+</script>
