@@ -15,7 +15,7 @@ class Vnpay {
         $vnp_OrderInfo = $data['card-note'];
         $vnp_OrderType = 3; // 3 cho vnpay
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-        $vnp_Amount = $data['total-price'] * 24000 * 100; // * với tỷ giá đô la
+        $vnp_Amount = $data['total-price'] * 24000; // * với giá đô la
         $vnp_Locale = $data['language'];
         $vnp_BankCode = $data['bankcode'];
         $vnp_Returnurl = route('checkout.vnpay.return');

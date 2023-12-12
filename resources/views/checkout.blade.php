@@ -2,7 +2,7 @@
 @section('main')
     <style>
         .proceed-form,
-        .vnpay-form {
+        .payment-card-form {
             display: none !important;
         }
         .open {
@@ -24,7 +24,7 @@
                                 <h5 class="subtitle">Enter Your Card Details </h5>
                                 @csrf
                                 <input type="hidden" name="total-price"/>
-                                <input type="hidden" name="payment-type" />
+                                <input type="hidden" name="payment-type" value="3"/>
                                 <div class="form-group w-100">
                                     <label for="card2">Bank</label>
                                     <style>
@@ -82,6 +82,20 @@
                                         <option value="vn">Tiếng Việt</option>
                                     </select>
                                 </div>
+                                <div class="form-group w-100">
+                                    <label for="card2">Note</label>
+                                    <input name="card-note" type="text" id="card2" >
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" class="custom-button" value="make payment">
+                                </div>
+                            </form>
+
+                            <form class="payment-card-form momo-form" method="POST" action="{{ route('checkout.momo') }}">
+                                <h5 class="subtitle">Enter Your Card Details </h5>
+                                @csrf
+                                <input type="hidden" name="total-price"/>
+                                <input type="hidden" name="payment-type" value="2"/>
                                 <div class="form-group w-100">
                                     <label for="card2">Note</label>
                                     <input name="card-note" type="text" id="card2" >
@@ -196,7 +210,6 @@
     const assetUrl = "{{ asset('images') }}"
     const checkoutVnpay = "{{ route('checkout.vnpay') }}"
     const checkoutMomo = "{{ route('checkout.momo') }}"
-
 </script>
 <script src="{{ asset('js/payment.js') }}"></script>    
 @endsection

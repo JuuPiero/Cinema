@@ -10,12 +10,12 @@ class CartAjax
     private $cart;
     private $food;
 
-    public function __construct(){
+    public function __construct() {
         $this->cart = session('cart') ? session('cart') : [];
         $this->food = session('food') ? session('food') : [];
     }
 
-    public function film($time_detail, $seat){
+    public function film($time_detail, $seat) {
         $count_regular = 0;
         $count_vip = 0;
         $vip = MovieChair::where('id', 1)->first()->price;
