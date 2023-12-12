@@ -6,20 +6,22 @@
             display: none !important;
         }
         .open {
-            display: flex !important;
+            display: block !important;
         }
-      
+        .payment-item {
+            cursor: pointer;
+        }
     </style>
     <div class="movie-facility padding-bottom padding-top">
         <div class="container">
             <div class="row">
                 @if (Auth::check())
                     <div class="col-lg-8">
-                        <div class="checkout-widget checkout-card payment-container">
+                        <div class="checkout-widget checkout-card payment-container ">
                             <h5 class="title">Payment Option</h5>
                             <ul class="payment-option"></ul>
-                            <h6 class="subtitle">Enter Your Card Details </h6>
                             <form class="payment-card-form vnpay-form" method="POST" action="{{ route('checkout.vnpay') }}">
+                                <h5 class="subtitle">Enter Your Card Details </h5>
                                 @csrf
                                 <input type="hidden" name="total-price"/>
                                 <input type="hidden" name="payment-type" />
@@ -190,6 +192,11 @@
 @endsection
 
 @section('script')
-<script>const assetUrl = "{{ asset('images') }}" </script>
+<script>
+    const assetUrl = "{{ asset('images') }}"
+    const checkoutVnpay = "{{ route('checkout.vnpay') }}"
+    const checkoutMomo = "{{ route('checkout.momo') }}"
+
+</script>
 <script src="{{ asset('js/payment.js') }}"></script>    
 @endsection

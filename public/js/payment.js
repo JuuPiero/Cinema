@@ -26,7 +26,7 @@ if(paymentOption) {
     paymentMethods.forEach(item => {
         paymentOption.innerHTML += `
             <li class="payment-item ${item.name.toLowerCase()}-method">
-                <a href="#" class="payment-link">
+                <a class="payment-link">
                     <img src="${assetUrl}/${item.name.toLowerCase()}.jpg" alt="payment">
                     <span>${item.name}</span>
                 </a>
@@ -40,20 +40,19 @@ if(paymentOption) {
 }
 
 const paymentType = document.querySelector('input[name="payment-type"]')
+const paymentForm = document.querySelector('.payment-card-form')
 
-const vnpayItem = document.querySelector('.vnpay-method')
-const vnpayForm = document.querySelector('.vnpay-form')
 const cashItem = document.querySelector('.cash-payment-method')
 const proceedForm = document.querySelector('.proceed-form')
 const momoItem = document.querySelector('.momo-method')
+const vnpayItem = document.querySelector('.vnpay-method')
+const vnpayForm = document.querySelector('.vnpay-form')
+
 if(cashItem) {
     cashItem.addEventListener('click', e => {
-        if(e.target.classList.contains('payment-link')) {
-            e.preventDefault()
-        }
         vnpayItem.classList.remove('active')
         momoItem.classList.remove('active')
-        vnpayForm.classList.remove('open')
+        paymentForm.classList.remove('open')
 
         cashItem.classList.toggle('active')
         if(cashItem.classList.contains('active')) {
@@ -66,18 +65,21 @@ if(cashItem) {
 }
 
 
-
 if(momoItem) {
     momoItem.addEventListener('click', e => {
-        if(e.target.classList.contains('payment-link')) {
-            e.preventDefault()
-        }
         cashItem.classList.remove('active')
         proceedForm.classList.remove('open')
-        vnpayItem.classList.remove('active')
-        vnpayForm.classList.remove('open')
-        momoItem.classList.toggle('active')
 
+        vnpayItem.classList.remove('active')
+
+        momoItem.classList.toggle('active')
+        paymentForm.action = checkoutMomo
+        if(momoItem.classList.contains('active')) {
+            paymentForm.classList.add('open')
+        }
+        else {
+            vnpayForm.classList.remove('open')
+        }
         paymentType.value = 2
     })
 }
@@ -85,13 +87,12 @@ if(momoItem) {
 
 if(vnpayItem) {
     vnpayItem.addEventListener('click', e => {
-        if(e.target.classList.contains('payment-link')) {
-            e.preventDefault()
-        }
         cashItem.classList.remove('active')
         proceedForm.classList.remove('open')
         momoItem.classList.remove('active')
         vnpayItem.classList.toggle('active')
+
+        paymentForm.action = checkoutVnpay
 
         if(vnpayItem.classList.contains('active')) {
             vnpayForm.classList.add('open')

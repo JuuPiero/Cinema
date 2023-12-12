@@ -70,6 +70,9 @@ Route::post('/post-checkout', [CheckoutController::class, 'post_checkout'])->nam
 Route::post('/checkout/vnpay', [CheckoutController::class, 'vnpay_checkout'])->name('checkout.vnpay');
 Route::get('checkout/vnpay/return', [CheckoutController::class, 'vnpay_return'])->name('checkout.vnpay.return');
 
+Route::post('/checkout/momo', [CheckoutController::class, 'momo_checkout'])->name('checkout.momo');
+Route::get('checkout/momo/return', [CheckoutController::class, 'momo_return'])->name('checkout.momo.return');
+
 
 Route::post('/customer/contact-info', [HomeController::class, 'contact_info'])->name('customer.contact-info');
 Route::get('/login', [HomeController::class, 'login'])->name('login');

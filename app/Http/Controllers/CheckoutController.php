@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helper\CartAjax;
 use App\Models\BookTicket;
 use App\Models\BookTicketDetail;
+use App\Wrapper\Momo;
 use App\Wrapper\Vnpay;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -102,6 +103,7 @@ class CheckoutController extends Controller
             $email->subject('Boleto-cart');
             $email->to($user->email);
         });
+
         $cart->clear();
         $data = [
             'Amount' => $data['vnp_Amount']. " VND",
@@ -112,11 +114,10 @@ class CheckoutController extends Controller
             'TransactionNo' => $data['vnp_TransactionNo'],
              'TransactionStatus' => $data['vnp_TransactionStatus']
         ];
-        return view('client.checkout.vnpay-return')->with([
+        return view('client.checkout.return')->with([
             'data' => $data
         ]);
     }
-
 
 
     public function momo_checkout(Request $request, CartAjax $cart) {
@@ -151,8 +152,38 @@ class CheckoutController extends Controller
 
         $user = Auth::user();
 
-        // $data = $request->all();
-        Vnpay::createPayment($data);
+        
+        Momo::createPayment($data);
 
     }
+
+
+    public function momo_return(Request $request, CartAjax $cart) {
+        $data = $request->all();
+        $bookTicket = BookTicket::latest()->first();
+        $bookTicket->update([
+            'status' => 2
+        ]);
+       
+        $user = Auth::user();
+        Mail::send('mail.checkout', compact('cart'), function($email) use($user) {
+            $email->subject('Boleto-cart');
+            $email->to($user->email);
+        });
+        $cart->clear();
+        // dd($data);
+        $data = [
+            'orderId' => $data['orderId'],
+            'amount' => $data['amount'] . 'VND',
+            'orderInfo' => $data['orderInfo'],
+            'orderType' => $data['orderType'],
+            'transId' => $data['transId'],
+            'payType' => $data['payType'],
+             'paymentOption' => $data['paymentOption']
+        ];
+        return view('client.checkout.return')->with([
+            'data' => $data
+        ]);
+    }
+
 }

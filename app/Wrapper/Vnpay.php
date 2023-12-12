@@ -2,8 +2,8 @@
 
 namespace App\Wrapper;
 
+// https://sandbox.vnpayment.vn/apis/vnpay-demo/ acc test
 class Vnpay {
-
 
     public static function createPayment($data = null) {
         
