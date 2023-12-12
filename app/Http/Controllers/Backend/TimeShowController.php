@@ -14,11 +14,6 @@ use App\Models\Time;
 use App\Models\Cinema;
 class TimeShowController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function Search(Request $request){
         $Flag = 2;
         $keywords = $request->keywords;
@@ -46,7 +41,6 @@ class TimeShowController extends Controller
         return view('back-end.manage.show-time.index', compact('listData', 'Flag'));
     }
 
-   
     public function create()
     {
         $listFilm = Film::get();
@@ -56,7 +50,6 @@ class TimeShowController extends Controller
         return view('back-end.manage.show-time.add', compact(['listRoom', 'listTime', 'listFilm', 'listCinema']));
     }
 
-   
     public function store(AddRequest $request, TimeDetail $AddShowTime)
     {
         $check = TimeDetail::where('date', $request->date)
@@ -72,8 +65,6 @@ class TimeShowController extends Controller
         return redirect()->route('show-time.index');
     }
 
-   
-
     public function edit($id)
     {
         $finbyId = TimeDetail::find($id);
@@ -84,14 +75,12 @@ class TimeShowController extends Controller
         return view('back-end.manage.show-time.edit', compact(['listRoom', 'listCinema', 'listTime', 'listFilm', 'finbyId']));
     }
 
-    
     public function update(Request $request, $id, TimeDetail $EditShowTime)
     {
         $EditShowTime->edit($request, $id);
         Alert::success('Success!', 'Successfully Update ShowTime.');
         return redirect()->route('show-time.index');
     }
-
     
     public function destroy($id)
     {

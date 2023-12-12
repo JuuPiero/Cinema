@@ -38,34 +38,11 @@ class BillController extends Controller
         $contact = ContactInfo::first();
         $bookTicket = BookTicket::find($id); // $bookTicket-status : 1 => pending ; 2 => complete
         $bookTicketDetails = BookTicketDetail::where('book_ticket_id', $id)->get();
-        
         $user = User::where('id', $bookTicket->user_id)->first();
         $flag = 0;
-        $type = [];
-        // dd($bookTicketDetails);
         $chairs = MovieChair::all();
-       
         $foods = Food::all();
-        // $film = Film::all();
-        // $time = Time::all();
-        // $room = MovieRoom::all();
-        // $cinema = Cinema::all();
         $timeDetail = TimeDetail::all();
-        // $seats = json_decode($listData[0]['chair'], true); // ghế
-        // $seatBooked = [];
-        // foreach($seats as $value){
-        //     $Str = substr($value, 0, 1);
-        //     if($Str >= 'a' && $Str <= 'd'){
-        //         $dts = 'regular seat';
-        //     }else if($Str >= 'e' && $Str <= 'h'){
-        //         $dts = 'vip seat';
-        //     }else{
-        //         $dts = 'couple seat';
-        //     }
-        //     array_push($type, $dts);
-        //     array_push($seatBooked, $dts);
-        // }
-        // dd($seatArray);
         return view('back-end.manage.bill.detail')->with([
             'contact' => $contact,
             'bookTicket' => $bookTicket,
@@ -76,7 +53,7 @@ class BillController extends Controller
             'chairs' => $chairs,
             'timeDetail' => $timeDetail,
             'flag' => $flag,
-            'foods' => $foods
+            'foods' => $foods,
         ]);
     }
 

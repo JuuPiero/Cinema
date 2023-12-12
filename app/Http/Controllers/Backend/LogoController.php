@@ -10,14 +10,8 @@ use App\Models\Logo;
 
 class LogoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        
         $listData = Logo::orderBy('status', 'ASC')
                         ->paginate(3);
         return view('back-end.manage.ui-elements.logo', compact('listData'));
@@ -31,9 +25,6 @@ class LogoController extends Controller
         return redirect()->back();
     }
 
-  
-
-   
     public function edit($id)
     {
         $finbyId = Logo::find($id);
@@ -47,12 +38,6 @@ class LogoController extends Controller
         return redirect()->route('logo.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id, Logo $DeleteLogo)
     {
         $DeleteLogo->Remove($id);

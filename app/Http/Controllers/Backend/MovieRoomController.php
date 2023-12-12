@@ -11,11 +11,6 @@ use App\Models\MovieRoom;
 
 class MovieRoomController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function Search(Request $request){
         $Flag = 2;
         $keywords = $request->keywords;
@@ -30,7 +25,6 @@ class MovieRoomController extends Controller
         $listData = MovieRoom::paginate(2);
         return view('back-end.manage.movie-room.index', compact('listData', 'Flag'));
     }
-
   
    
     public function store(AddRequest $request, MovieRoom $AddRoom)
@@ -40,14 +34,11 @@ class MovieRoomController extends Controller
         return redirect()->route('movie-room.index');
     }
 
-  
-
     public function edit($id)
     {
         $finbyId = MovieRoom::find($id);
         return view('back-end.manage.movie-room.edit', compact('finbyId'));
     }
-
    
     public function update(EditRequest $request, $id, MovieRoom $EditRoom)
     {
@@ -55,7 +46,6 @@ class MovieRoomController extends Controller
         Alert::success('Update!', 'Successfully Update Movie Room.');
         return redirect()->route('movie-room.index');
     }
-
     
     public function destroy($id, MovieRoom $DeleteRoom)
     {

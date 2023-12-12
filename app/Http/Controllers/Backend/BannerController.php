@@ -23,14 +23,12 @@ class BannerController extends Controller
         Alert::success('Success', 'Successfully Add New Banner.');
         return redirect()->back();
     }
-
    
     public function edit($id)
     {
         $finbyId = Banner::find($id);
         return view('back-end.manage.ui-elements.banner-edit', compact('finbyId'));
     }
-
     
     public function update(EditRequest $request, $id, Banner $EditBanner)
     {
@@ -39,7 +37,6 @@ class BannerController extends Controller
         return redirect()->route('banner.index');
     }
 
-   
     public function destroy($id, Banner $DeleteBanner)
     {
         $DeleteBanner->Remove($id);

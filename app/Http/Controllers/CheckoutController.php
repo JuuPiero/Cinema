@@ -16,8 +16,6 @@ class CheckoutController extends Controller
     }
 
     public function post_checkout(Request $request, CartAjax $cart) {
-        
-
         if(empty($cart->content()) && empty($cart->content_food())){
             return redirect()->back()->with('error', 'You must buy at least 1 item!');
         }
@@ -53,5 +51,13 @@ class CheckoutController extends Controller
 
         $cart->clear();
         return redirect()->route('index')->with('success', 'Thank you for buying!');
+    }
+
+    public function post_checkout_online(Request $request, CartAjax $cart) {
+        if(empty($cart->content()) && empty($cart->content_food())){
+            return redirect()->back()->with('error', 'You must buy at least 1 item!');
+        }
+
+        
     }
 }

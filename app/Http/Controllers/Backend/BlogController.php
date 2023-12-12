@@ -10,11 +10,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\Blog;
 class BlogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function Search(Request $request){
         $Flag = 2;
         $keywords = $request->keywords;
@@ -30,28 +26,23 @@ class BlogController extends Controller
         return view('back-end.manage.blog.index', compact('listData', 'Flag'));
     }
    
-
     public function create()
     {
         return view('back-end.manage.blog.add');
     }
 
-   
     public function store(AddRequest $request, Blog $AddBlog)
     {
         $AddBlog->add($request);
         Alert::success('Success', 'Successfully Add New Blog.');
         return redirect()->route('blog.index');
     }
-
-    
     
     public function edit($id)
     {
         $finbyId = Blog::find($id);
         return view('back-end.manage.blog.edit', compact('finbyId'));
     }
-
    
     public function update(EditRequest $request, $id, Blog $EditBlog)
     {
@@ -59,7 +50,6 @@ class BlogController extends Controller
         Alert::success('Update!', 'Successfully Update Blog.');
         return redirect()->route('blog.index');
     }
-
     
     public function destroy($id, Blog $DeleteBlog)
     {

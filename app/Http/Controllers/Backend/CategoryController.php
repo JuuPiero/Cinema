@@ -10,11 +10,6 @@ use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\Category;
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function Search(Request $request){
         $Flag = 2;
         $keywords = $request->keywords;
@@ -31,8 +26,6 @@ class CategoryController extends Controller
         return view('back-end.manage.category.index', compact('listData', 'Flag'));
     }
 
-   
-//    
     public function store(AddRequest $request, Category $AddCate)
     {
         $AddCate->add($request);
@@ -40,22 +33,18 @@ class CategoryController extends Controller
         return redirect()->back()->with('success', 'Successfully Add New Category.');
     }
 
-    
-  
     public function edit($id)
     {
         $finbyId = Category::find($id);
         return view('back-end.manage.category.edit', compact('finbyId'));
     }
 
-   
     public function update(EditRequest $request, $id, Category $EditCate)
     {
         $EditCate->edit($request, $id);
         Alert::success('Update!', 'Successfully Update Category Film.');
         return redirect()->route('category.index');
     }
-
     
     public function destroy($id, Category $DeleteCate)
     {

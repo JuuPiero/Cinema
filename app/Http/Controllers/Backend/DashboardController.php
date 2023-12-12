@@ -3,28 +3,16 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\User;
-use App\Models\Film;
-use App\Models\Feedback;
-use App\Models\BookTicket;
-// use Auth;
 use RealRashid\SweetAlert\Facades\Alert;
-// use Hash;
 use App\Http\Requests\Account\postLogin;
 use App\Http\Requests\Account\EditProfile;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class DashboardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function post_login(postLogin $request){
         if(Auth::attempt($request->only('email', 'password'))){
             $admin = Auth::user()->name;
@@ -46,7 +34,6 @@ class DashboardController extends Controller
     {
         return view('back-end.manage.dashboard.index');
     }
-
    
     public function create()
     {

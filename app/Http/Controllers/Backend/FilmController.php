@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Film\AddRequest;
-use App\Http\Requests\Film\EditRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\Category;
 use App\Models\Cinema;
@@ -19,7 +18,6 @@ use App\Models\Photo;
 use App\Models\Time;
 class FilmController extends Controller
 {
-  
     public function Search(Request $request){
         $Flag = 2;
         $keywords = $request->keywords;
@@ -38,11 +36,7 @@ class FilmController extends Controller
                     ->get();
         return view('back-end.manage.film.index', compact('listData', 'CateOfFilm', 'Flag'));
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function create()
     {
         $listCate = Category::where('status', 1)->get();
@@ -52,7 +46,6 @@ class FilmController extends Controller
         return view('back-end.manage.film.add', compact(['listCate', 'listCinema', 'listRoom', 'listTime']));
     }
 
-    
     public function store(AddRequest $request, Film $AddFilm)
     {
         $AddFilm->add($request);
@@ -60,7 +53,6 @@ class FilmController extends Controller
         return redirect()->route('film.index');
     }
 
-   
     public function edit($id)
     {
         $finbyId = Film::find($id);
@@ -77,13 +69,6 @@ class FilmController extends Controller
         return view('back-end.manage.film.edit', compact(['listCate', 'listCinema', 'finbyId', 'CateOfFilm', 'FilmMakerCrew', 'FilmMakerCast', 'RoomOfFilm', 'CinemaOfFilm', 'Photos', 'listRoom', 'listTime']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id, Film $EditFilm)
     {
         $EditFilm->edit($request, $id);
@@ -91,12 +76,6 @@ class FilmController extends Controller
         return redirect()->route('film.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id, Film $DeleteFilm)
     {
         $DeleteFilm->Remove($id);

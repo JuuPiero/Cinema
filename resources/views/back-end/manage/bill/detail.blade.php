@@ -61,7 +61,7 @@
                             </div>
                         </div>
 
-                        <div class="container-fluid mt-5 d-flex justify-content-center w-100">
+                        <div class="container-fluid mt-5 d-flex justify-content-center w-100 book-tickets-container">
                             <div class="table-responsive w-100">
                                 <table class="table">
                                     <thead>
@@ -109,9 +109,9 @@
                                                         </td>
                                                     </tr>
                                                 @endforeach
-                                                <tr>
-                                                    <td colspan="5" class="text-center"><h4>Amount</h4></td>
-                                                    <td colspan="5" class="text-center">
+                                                <tr class="text-center">
+                                                    <td colspan="5"><h4>Amount</h4></td>
+                                                    <td colspan="5">
                                                         <h4>$ {{ number_format($bookTicketDetails[$key]['price']) }}</h4>
                                                     </td>
                                                 </tr>
@@ -119,14 +119,14 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                <a href="{{ route('create-PDF', request()->id) }}" class="btn btn-gradient-info btn-icon-text text-right">
-                                    PDF
-                                    <i class="mdi mdi-printer btn-icon-append"></i>
+                                <a href="{{ route('create-PDF', request()->id) }}" 
+                                    class="btn btn-gradient-info btn-icon-text text-right">
+                                    PDF<i class="mdi mdi-printer btn-icon-append"></i>
                                 </a>
                             </div>
                         </div>
 
-                        <div class="container-fluid mt-5 d-flex justify-content-center w-100">
+                        <div class="container-fluid mt-5 d-flex justify-content-center w-100 food-container">
                             <div class="table-responsive w-100">
                                 <table class="table">
                                     <thead>
@@ -139,25 +139,24 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($bookTicketDetails as $index => $value)
-                                            @if ($value->food_id)
+                                        @foreach ($bookTicketDetails as $index => $item)
+                                            @if ($item->food_id)
                                                 <h1 class="d-none">{{ $flag += 1 }}</h1>
                                                 <tr class="text-center">
                                                     <td>{{ $index }}</td>
                                                     <td>
-                                                        {{ $foods->where('id', $value->food_id)->first()->name }}
+                                                        {{ $foods->where('id', $item->food_id)->first()->name }}
                                                     </td>
-                                                    <td>{{ $value->quantity }}</td>
-                                                    <td>$
-                                                        {{ number_format($foods->where('id', $value->food_id)->first()->price) }}
+                                                    <td>{{ $item->quantity }}</td>
+                                                    <td>
+                                                        $ {{ number_format($foods->where('id', $item->food_id)->first()->price) }}
                                                     </td>
-                                                    <td>$ {{ number_format($value->price) }}</td>
+                                                    <td>$ {{ number_format($item->price) }}</td>
                                                 </tr>
                                             @endif
                                         @endforeach
-
                                         @if ($flag == 0)
-                                            <tr class="odd">
+                                            <tr>
                                                 <td valign="top" colspan="8" class="dataTables_empty text-center ">
                                                     You have not ordered food yet 
                                                 </td>
@@ -167,12 +166,12 @@
                                 </table>
                             </div>
                         </div>
-                        {{-- <div class="container-fluid mt-5 w-100">
+                        <div class="container-fluid mt-5 w-100">
                             <p class="text-right mb-2">Sub - Total amount: ${{ number_format($bookTicket->price) }}</p>
                             <h4 class="text-right mb-5">Total : ${{ number_format($bookTicket->price) }}
                             </h4>
                             <hr>
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
             </div>

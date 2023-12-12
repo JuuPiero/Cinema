@@ -10,11 +10,6 @@ use App\Models\User;
 use Carbon\Carbon;
 class ReviewController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $Flag = 1;
@@ -38,8 +33,6 @@ class ReviewController extends Controller
         return view('back-end.manage.review.index', compact('listData', 'Flag', 'keywords', 'Count'));
     }
 
-   
-  
     public function edit($id)
     {
         $now =  Carbon::now(7);
@@ -55,7 +48,6 @@ class ReviewController extends Controller
         return view('back-end.manage.review.edit', compact('finbyId', 'Auth', 'TimeReview'));
     }
 
-    
     public function update(Request $request, $id)
     {
         $finbyId = Reviews::find($id);
@@ -66,12 +58,6 @@ class ReviewController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $finbyId = Reviews::find($id);

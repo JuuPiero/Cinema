@@ -10,11 +10,6 @@ use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\MovieChair;
 class MovieChairController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function Search(Request $request){
         $Flag = 2;
         $keywords = $request->keywords;
@@ -30,8 +25,6 @@ class MovieChairController extends Controller
         return view('back-end.manage.movie-chair.index', compact('listData', 'Flag'));
     }
 
-   
-    
     public function store(AddRequest $request, MovieChair $AddChair)
     {
         $AddChair->add($request);
@@ -39,21 +32,18 @@ class MovieChairController extends Controller
         return redirect()->back();
     }
 
-   
     public function edit($id)
     {
         $finbyId = MovieChair::find($id);
         return view('back-end.manage.movie-chair.edit', compact('finbyId'));
     }
 
-   
     public function update(EditRequest $request, $id, MovieChair $EditChair)
     {
         $EditChair->edit($request, $id);
         Alert::success('Update!', 'Successfully Update Movie Chair.');
         return redirect()->route('movie-chair.index');
     }
-
     
     public function destroy($id, MovieChair $DeleteChair)
     {
