@@ -93,9 +93,6 @@ class CheckoutController extends Controller
     public function vnpay_return(Request $request, CartAjax $cart) {
         $data = $request->all();
         $bookTicket = BookTicket::latest()->first();
-        $bookTicket->update([
-            'status' => 2
-        ]);
        
         $user = Auth::user();
         Mail::send('mail.checkout', compact('cart'), function($email) use($user) {
@@ -104,15 +101,24 @@ class CheckoutController extends Controller
         });
 
         $cart->clear();
+        if($data['vnp_TransactionStatus'] == '00') {
+            $bookTicket->update([
+                'status' => 2
+            ]);
+        }
         $data = [
+            'Status' => $data['vnp_TransactionStatus'] == '00' ? 'Sucessful' : 'Error',
             'Amount' => $data['vnp_Amount']. " VND",
-            'BankCode' => $data['vnp_BankCode'],
-            'BankTranNo' => $data['vnp_BankTranNo'],
-            'CardType' => $data['vnp_CardType'],
-            'PayDate' => $data['vnp_PayDate'],
-            'TransactionNo' => $data['vnp_TransactionNo'],
-             'TransactionStatus' => $data['vnp_TransactionStatus']
+            'BankCode' => $data['vnp_BankCode'] ?? '',
+            'BankTranNo' => $data['vnp_BankTranNo'] ?? '',
+            'CardType' => $data['vnp_CardType'] ?? '',
+            'PayDate' => $data['vnp_PayDate'] ?? '',
+            'TransactionNo' => $data['vnp_TransactionNo'] ?? '',
+            'TransactionStatus' => $data['vnp_TransactionStatus'] ?? '',
         ];
+        // dd($data);
+        
+
         return view('client.checkout.return')->with([
             'data' => $data
         ]);
@@ -156,26 +162,30 @@ class CheckoutController extends Controller
     public function momo_return(Request $request, CartAjax $cart) {
         $data = $request->all();
         $bookTicket = BookTicket::latest()->first();
-        $bookTicket->update([
-            'status' => 2
-        ]);
+        
        
+        if($data['message'] == 'Successful.') {
+            $bookTicket->update([
+                'status' => 2
+            ]);
+        }
         $user = Auth::user();
         Mail::send('mail.checkout', compact('cart'), function($email) use($user) {
             $email->subject('Boleto-cart');
             $email->to($user->email);
         });
         $cart->clear();
-        // dd($data);
         $data = [
-            'orderId' => $data['orderId'],
+            'Status' => $data['message'],
+            'orderId' => $data['orderId'] ?? '',
             'amount' => $data['amount'] . 'VND',
-            'orderInfo' => $data['orderInfo'],
-            'orderType' => $data['orderType'],
-            'transId' => $data['transId'],
-            'payType' => $data['payType'],
-             'paymentOption' => $data['paymentOption']
+            'orderInfo' => $data['orderInfo'] ?? '',
+            'orderType' => $data['orderType']  ?? '',
+            'transId' => $data['transId']  ?? '',
+            'payType' => $data['payType']  ?? '',
+            'paymentOption' => $data['paymentOption']  ?? ''
         ];
+        // dd($data);
         return view('client.checkout.return')->with([
             'data' => $data
         ]);

@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="checkout-widget checkout-card payment-container">
-                        <h1 class="title mb-1">Successul<span></span></h1>
+                        {{-- <h1 class="title mb-1">Successul<span></span></h1> --}}
                        @foreach ($data as $key => $value)
                             <h5 class="mb-3" style="max-width: 350px; overflow: hidden;">{{$key}} : <b>{{$value}}</b></h5>
                         @endforeach
