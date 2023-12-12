@@ -56,7 +56,6 @@ class CartAjax
         }
         session(['food'=>$this->food]);
     }
-
     public function update_food($id, $qty){
         if(is_numeric($qty)){
             if($qty<=0){

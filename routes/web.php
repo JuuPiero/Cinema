@@ -67,12 +67,11 @@ Route::get('/remove-food/{id}', [HomeController::class, 'remove_food'])->name('r
 Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
 Route::post('/post-checkout', [CheckoutController::class, 'post_checkout'])->name('post-checkout');
 
-Route::post('/checkout/vnpay', [CheckoutController::class, 'post_checkout_online'])->name('checkout.vnpay');
-
+Route::post('/checkout/vnpay', [CheckoutController::class, 'vnpay_checkout'])->name('checkout.vnpay');
+Route::get('checkout/vnpay/return', [CheckoutController::class, 'vnpay_return'])->name('checkout.vnpay.return');
 
 
 Route::post('/customer/contact-info', [HomeController::class, 'contact_info'])->name('customer.contact-info');
-
 Route::get('/login', [HomeController::class, 'login'])->name('login');
 Route::post('/login', [HomeController::class, 'post_login']);
 Route::get('/register', [HomeController::class, 'register'])->name('register');

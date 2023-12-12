@@ -19,7 +19,7 @@ use App\Models\BookTicketDetail;
 
 class BillController extends Controller
 {
-    public function index(){
+    public function index() {
         $bookingDates = [];
         $bookTickets = BookTicket::join('users', 'users.id', '=', 'book_tickets.user_id')
                                 ->select('book_tickets.*', 'users.name')

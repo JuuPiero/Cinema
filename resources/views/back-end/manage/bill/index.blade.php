@@ -80,15 +80,15 @@
                                                 <tbody>
                                                     @foreach($bookTickets as $index => $bookTicket)
                                                     <tr role="row" class="text-center">
-                                                        <td class="sorting_1">{{ $index + 1 }}</td>
-                                                        <td class="">{{ $bookTicket->name }}</td>
-                                                        <td class="">
+                                                        <td class="sorting_1">{{ $bookTicket->id }}</td>
+                                                        <td>{{ $bookTicket->name }}</td>
+                                                        <td>
                                                             {{ $bookTicket->amount }}
                                                             <br> <pre>( Tickets + Food )</pre>
                                                         </td>
-                                                        <td class="">$ {{ number_format($bookTicket->price) }}</td>
-                                                        <td class="">Banking</td>
-                                                        <td class="">{{ $bookingDates[$index] }}</td>
+                                                        <td>$ {{ number_format($bookTicket->price) }}</td>
+                                                        <td class="payment-type">{{ $bookTicket->payment }}</td>
+                                                        <td>{{ $bookingDates[$index] }}</td>
                                                         <td class="">
                                                             <label class="badge {{ $bookTicket->status == 1 ? 'badge-danger' : 'badge-success' }}">
                                                                 {{($bookTicket->status == 1)? 'Pending' : 'Complete'}}
@@ -122,4 +122,20 @@
 <script src="{{url('assets-admin')}}/js/todolist.js"></script>
 <script src="{{url('assets-admin')}}/js/jquery.cookie.js"></script>
 <script src="{{url('assets-admin')}}/js/data-table.js"></script>
+<script>
+    const paymentTypes = document.querySelectorAll('.payment-type')
+
+    paymentTypes.forEach(item => {
+        if(item.innerHTML == 1) {
+            item.innerHTML = 'cash payment'
+        }
+        else if(item.innerHTML == 2) {
+            item.innerHTML = 'momo'
+        }
+        else {
+            item.innerHTML = 'vnpay'
+        }
+    })
+
+</script>
 @stop
