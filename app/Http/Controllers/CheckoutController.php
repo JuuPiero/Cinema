@@ -165,7 +165,7 @@ class CheckoutController extends Controller
                 'status' => 2
             ]);
             $user = Auth::user();
-            Mail::send('mail.checkout', compact('cart'), function($email) use($user) {
+            Mail::send('mail.checkout', compact('cart', 'bookTicket'), function($email) use($user) {
                 $email->subject('Boleto-cart');
                 $email->to($user->email);
             });

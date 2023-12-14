@@ -34,6 +34,17 @@
 
 <body>
     <h1>Thank you for buying from us! Have a good day!</h1>
+    <h3> Payment : 
+        @if ($bookTicket->payment == 1)
+            Cash Payment 
+        @endif
+        @if ($bookTicket->payment == 2)
+            Momo
+        @endif
+        @if ($bookTicket->payment == 3)
+            VNPAY
+        @endif
+    </h3>
     <table class="table table-bordered" border="1" cellpadding="0" cellspacing="0">
         <thead>
             <tr>
