@@ -10,7 +10,7 @@
                        @foreach ($data as $key => $value)
                             <h5 class="mb-3" style="max-width: 350px; overflow: hidden;">{{$key}} : <b>{{$value}}</b></h5>
                         @endforeach
-                        <a href="{{route('index')}}" class="proceed-btn custom-button back-button" type="submit" >Go to Home page</a>
+                        <a href="{{route('index')}}" class=" custom-button back-button" type="submit" >Go to Home page</a>
                     </div>
                 </div>
             </div>

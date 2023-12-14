@@ -84,7 +84,6 @@ class CheckoutController extends Controller
         }
 
         $user = Auth::user();
-
         // $data = $request->all();
         Vnpay::createPayment($data);
 
@@ -93,18 +92,17 @@ class CheckoutController extends Controller
     public function vnpay_return(Request $request, CartAjax $cart) {
         $data = $request->all();
         $bookTicket = BookTicket::latest()->first();
-       
-        $user = Auth::user();
-        Mail::send('mail.checkout', compact('cart'), function($email) use($user) {
-            $email->subject('Boleto-cart');
-            $email->to($user->email);
-        });
-
-        $cart->clear();
+      
         if($data['vnp_TransactionStatus'] == '00') {
             $bookTicket->update([
                 'status' => 2
             ]);
+            $user = Auth::user();
+            Mail::send('mail.checkout', compact('cart'), function($email) use($user) {
+                $email->subject('Boleto-cart');
+                $email->to($user->email);
+            });
+            $cart->clear();
         }
         $data = [
             'Status' => $data['vnp_TransactionStatus'] == '00' ? 'Sucessful' : 'Error',
@@ -116,8 +114,6 @@ class CheckoutController extends Controller
             'TransactionNo' => $data['vnp_TransactionNo'] ?? '',
             'TransactionStatus' => $data['vnp_TransactionStatus'] ?? '',
         ];
-        // dd($data);
-        
 
         return view('client.checkout.return')->with([
             'data' => $data
@@ -153,28 +149,29 @@ class CheckoutController extends Controller
                 'price' => $item['price']
             ]);
         }
-
-        $user = Auth::user();
-        
-        Momo::createPayment($data);
+        if($data['method'] == 'qr') {
+            Momo::createPaymentQr($data);
+        }
+        else {
+            Momo::createPayment($data);
+        }
     }
 
     public function momo_return(Request $request, CartAjax $cart) {
         $data = $request->all();
         $bookTicket = BookTicket::latest()->first();
-        
-       
         if($data['message'] == 'Successful.') {
             $bookTicket->update([
                 'status' => 2
             ]);
+            $user = Auth::user();
+            Mail::send('mail.checkout', compact('cart'), function($email) use($user) {
+                $email->subject('Boleto-cart');
+                $email->to($user->email);
+            });
+            $cart->clear();
         }
-        $user = Auth::user();
-        Mail::send('mail.checkout', compact('cart'), function($email) use($user) {
-            $email->subject('Boleto-cart');
-            $email->to($user->email);
-        });
-        $cart->clear();
+       
         $data = [
             'Status' => $data['message'],
             'orderId' => $data['orderId'] ?? '',
@@ -185,7 +182,6 @@ class CheckoutController extends Controller
             'payType' => $data['payType']  ?? '',
             'paymentOption' => $data['paymentOption']  ?? ''
         ];
-        // dd($data);
         return view('client.checkout.return')->with([
             'data' => $data
         ]);

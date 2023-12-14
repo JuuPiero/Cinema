@@ -13,6 +13,11 @@
         }
     </style>
     <div class="movie-facility padding-bottom padding-top">
+        @if(session('message'))
+            <h4 class="message alert ">
+                {{ session('message') }}
+            </h4>
+        @endif
         <div class="container">
             <div class="row">
                 @if (Auth::check())
@@ -96,6 +101,13 @@
                                 @csrf
                                 <input type="hidden" name="total-price"/>
                                 <input type="hidden" name="payment-type" value="2"/>
+                                <div class="form-group">
+                                    <label >Method</label>
+                                    <select name="method" required>
+                                        <option value="qr">QR</option>
+                                        <option value="atm">ATM</option>
+                                    </select>
+                                </div>
                                 <div class="form-group w-100">
                                     <label for="card2">Note</label>
                                     <input name="card-note" type="text" id="card2" >
